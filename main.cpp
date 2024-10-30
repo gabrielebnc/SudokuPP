@@ -7,7 +7,7 @@ int SUDOKU_SIZE = 9;
 int SUDOKU_CELL_SIZE = 3;
 
 /*
- * Utility function to display the SudokuPP
+ * Utility function to display the sudoku
  * */
 void display_sudoku(const std::vector<std::vector<int>> &sudoku) {
     for (int i = 0; i < SUDOKU_SIZE; i++) {
@@ -20,7 +20,7 @@ void display_sudoku(const std::vector<std::vector<int>> &sudoku) {
 }
 
 /*
- * Detects violation in SudokuPP's rows
+ * Detects violation in sudoku's rows
  * */
 bool is_row_violated(const std::vector<std::vector<int>> &sudoku) {
     for (const auto &row: sudoku) {
@@ -37,7 +37,7 @@ bool is_row_violated(const std::vector<std::vector<int>> &sudoku) {
 }
 
 /*
- * Detects violation in SudokuPP's columns
+ * Detects violation in sudoku's columns
  * */
 bool is_col_violated(const std::vector<std::vector<int>> &sudoku) {
     for (int i = 0; i < SUDOKU_SIZE; ++i) {
@@ -55,7 +55,7 @@ bool is_col_violated(const std::vector<std::vector<int>> &sudoku) {
 }
 
 /*
- * Detects violation in SudokuPP's given cell
+ * Detects violation in sudoku's given cell
  * */
 bool is_cell_violated(const std::vector<std::vector<int>> &sudoku, int startRow, int startCol) {
     std::set<int> seen;
@@ -73,7 +73,7 @@ bool is_cell_violated(const std::vector<std::vector<int>> &sudoku, int startRow,
 }
 
 /*
- * Detects violation in SudokuPP's cells
+ * Detects violation in sudoku's cells
  * */
 bool is_cells_violated(const std::vector<std::vector<int>> &sudoku) {
     for (int row = 0; row < SUDOKU_SIZE; row += SUDOKU_CELL_SIZE) {
@@ -85,7 +85,7 @@ bool is_cells_violated(const std::vector<std::vector<int>> &sudoku) {
 }
 
 /*
- * Detects violation in SudokuPP's composition
+ * Detects violation in sudoku's composition
  * */
 bool is_sudoku_violated(const std::vector<std::vector<int>> &sudoku) {
     return is_row_violated(sudoku) || is_col_violated(sudoku) || is_cells_violated(sudoku);
@@ -93,7 +93,7 @@ bool is_sudoku_violated(const std::vector<std::vector<int>> &sudoku) {
 
 /*
  * Sudoku solver with backtracking
- * Modifies the SudokuPP in-place
+ * Modifies the sudoku in-place
  * Returns wether the operation is successful or not
  * */
 bool solve_sudoku(std::vector<std::vector<int>> &sudoku) {
@@ -141,5 +141,5 @@ int main() {
 
     std::cout << "Solve op result: " << result << "\n";
     display_sudoku(sudoku);
-    std::cout << "Execution time: " << duration.count() << "ms = " << duration.count()/1000 << "s" << std::endl;
+    std::cout << "Execution time: " << duration.count() << "ms = " << duration.count() / 1000 << "s" << std::endl;
 }
