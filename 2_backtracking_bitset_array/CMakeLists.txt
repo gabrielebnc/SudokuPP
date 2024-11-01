@@ -1,0 +1,1 @@
+add_executable(2_backtracking_bitset_array main.cpp)
