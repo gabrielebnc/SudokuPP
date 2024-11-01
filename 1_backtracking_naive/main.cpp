@@ -3,8 +3,8 @@
 #include <set>
 #include <chrono>
 
-int SUDOKU_SIZE = 9;
-int SUDOKU_CELL_SIZE = 3;
+const int SUDOKU_SIZE = 9;
+const int SUDOKU_CELL_SIZE = 3;
 
 /*
  * Utility function to display the sudoku
