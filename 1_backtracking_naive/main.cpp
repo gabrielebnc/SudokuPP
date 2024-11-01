@@ -105,17 +105,18 @@ bool solve_sudoku(std::vector<std::vector<int>> &sudoku) {
         for (int &elem: row) {
             if (elem == 0) {
                 for (int insertNum = 1; insertNum <= SUDOKU_SIZE; ++insertNum) {
+                    // we always set the element
                     elem = insertNum;
                     if (solve_sudoku(sudoku)) {
                         return true;
                     }
+                    // if setting the element violates the sudoku rules, it gets "deleted" to try a new element
                     elem = 0;
                 }
                 return false;
             }
         }
     }
-
     return true;
 }
 
