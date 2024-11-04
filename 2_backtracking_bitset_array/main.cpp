@@ -122,7 +122,7 @@ bool solve_sudoku(int (&sudoku)[SUDOKU_SIZE][SUDOKU_SIZE]) {
 }
 
 int main() {
-    int sudokuu[SUDOKU_SIZE][SUDOKU_SIZE] = {
+    int sudoku[SUDOKU_SIZE][SUDOKU_SIZE] = {
             {0, 0, 0, 0, 0, 0, 9, 0, 1},
             {0, 1, 0, 0, 7, 0, 8, 0, 0},
             {0, 0, 8, 0, 6, 0, 0, 2, 0},
@@ -134,18 +134,6 @@ int main() {
             {0, 0, 1, 9, 0, 0, 0, 0, 0},
             {0, 2, 0, 4, 0, 0, 0, 9, 3},
             {0, 0, 5, 3, 0, 0, 0, 7, 0}
-    };
-
-    int sudoku[SUDOKU_SIZE][SUDOKU_SIZE] = {
-            {7, 0, 0, 0, 1, 0, 0, 0, 9},
-            {0, 9, 2, 0, 0, 8, 0, 5, 0},
-            {3, 0, 0, 2, 0, 0, 0, 0, 0},
-            {9, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 6, 0, 0, 8, 0},
-            {0, 1, 4, 7, 0, 0, 0, 0, 5},
-            {0, 0, 0, 0, 0, 7, 4, 0, 0},
-            {0, 0, 3, 0, 0, 0, 0, 0, 0},
-            {0, 2, 5, 4, 0, 0, 0, 0, 1}
     };
 
     auto start = std::chrono::high_resolution_clock::now();
