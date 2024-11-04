@@ -1,16 +1,18 @@
 #include <iostream>
 #include <vector>
+#include <bitset>
 #include <unordered_map>
 #include <random>
+#include <cmath>
 
 const int SUDOKU_SIZE = 9;
 const int SUDOKU_CELL_SIZE = 3;
 
 static std::random_device rd;
 static std::mt19937 gen(rd());
-static std::uniform_int_distribution<> dis(1, SUDOKU_SIZE);
 
-int randomSudokuInt() {
+int randomIntInRange(int min, int max) {
+    std::uniform_int_distribution<> dis(min, max);
     return dis(gen);
 }
 
@@ -18,6 +20,7 @@ class Sudoku {
 private:
     std::vector<std::vector<int>> startingBoard;
     std::vector<std::vector<int>> currentBoard;
+    int startingTemp;
 
     void reset() {
         currentBoard = startingBoard;
@@ -101,17 +104,75 @@ private:
         return -(row_violations() + col_violations() + cell_violations());
     }
 
-    void random_fill() {
-        for (int row = 0; row < SUDOKU_SIZE; ++row) {
-            for (int col = 0; col < SUDOKU_SIZE; ++col) {
-                if (startingBoard[row][col] == 0) currentBoard[row][col] = randomSudokuInt();
+    /*
+     * Standard deviation of a number of randomly initialized states
+     * */
+    int starting_temperature(int n_states) {
+
+        std::cout << "computing starting temperature\n";
+
+        double mean = 0;
+        double stdev = 0;
+        std::vector<int> states{};
+
+        for (int i = 0; i < n_states; ++i) {
+            random_fill_sudoku();
+            int status = objective_status();
+            states.push_back(status);
+            mean += double(status) / n_states;
+        }
+
+        for (const int state: states) {
+            stdev += std::pow(state - mean, 2) / n_states;
+        }
+
+        return int(std::sqrt(stdev));
+    }
+
+    std::bitset<SUDOKU_SIZE> seen_elements_cell(int startRow, int startCol){
+        std::bitset<SUDOKU_SIZE> seen;
+        for (int row = startRow; row < startRow + SUDOKU_CELL_SIZE; ++row) {
+            for (int col = startCol; col < startCol + SUDOKU_CELL_SIZE; ++col) {
+                // It is guaranteed that we will never set the same bit twice
+                int elem = currentBoard[row][col];
+                if(elem != 0)
+                    seen.set(currentBoard[row][col] - 1);
+            }
+        }
+        return seen;
+    }
+
+    void random_fill_cell(int startRow, int startCol){
+        std::bitset<SUDOKU_SIZE> seen = seen_elements_cell(startRow, startCol);
+        for (int row = startRow; row < startRow + SUDOKU_CELL_SIZE; ++row) {
+            for (int col = startCol; col < startCol + SUDOKU_CELL_SIZE; ++col) {
+                int & elem = currentBoard[row][col];
+                if(elem == 0){
+                    while(elem != 0){
+                        int candidate = randomIntInRange(1, SUDOKU_SIZE);
+                        if (!seen[candidate-1]){
+                            elem = candidate;
+                            seen.set(candidate-1);
+                        }
+                    }
+                } else seen.set()
+            }
+        }
+    }
+
+    void random_fill_sudoku() {
+        for (int startRow = 0; startRow < SUDOKU_SIZE; startRow += SUDOKU_CELL_SIZE) {
+            for (int startCol = 0; startCol < SUDOKU_SIZE; startCol += SUDOKU_CELL_SIZE) {
+                random_fill_cell(startRow, startCol);
             }
         }
     }
 
 public:
 
-    explicit Sudoku(const std::vector<std::vector<int>> &board) : startingBoard(board), currentBoard(board) {};
+    explicit Sudoku(const std::vector<std::vector<int>> &board) : startingBoard(board), currentBoard(board) {
+        startingTemp = starting_temperature(100);
+    };
 
     /*
      * Simulated Annealing solving
@@ -127,6 +188,7 @@ public:
 
     void display_starting_board() {
         display_board(startingBoard);
+        std::cout << "Starting Temp: " << startingTemp;
     };
 
     void display_current_board() {
@@ -135,7 +197,7 @@ public:
     };
 
     void display_random_filled_board() {
-        random_fill();
+        random_fill_sudoku();
         display_current_board();
         reset();
     }
@@ -174,6 +236,6 @@ int main() {
     };
 
     auto sudoku = Sudoku(s);
-    sudoku.display_random_filled_board();
     sudoku.display_current_board();
+    sudoku.display_starting_board();
 }
