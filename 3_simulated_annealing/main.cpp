@@ -101,61 +101,62 @@ private:
 
     // Evaluation of current board status, if 0 the board is solved
     int objective_status() {
-        return -(row_violations() + col_violations() + cell_violations());
+        return row_violations() + col_violations() + cell_violations();
     }
 
     /*
      * Standard deviation of a number of randomly initialized states
      * */
-    int starting_temperature(int n_states) {
-
-        std::cout << "computing starting temperature\n";
-
+    int starting_temperature(int n_states = 200) {
+        std::cout << "Computing starting temp \n";
         double mean = 0;
         double stdev = 0;
-        std::vector<int> states{};
+        std::vector<double> states{};
 
         for (int i = 0; i < n_states; ++i) {
             random_fill_sudoku();
-            int status = objective_status();
+            double status = objective_status();
             states.push_back(status);
             mean += double(status) / n_states;
         }
 
-        for (const int state: states) {
-            stdev += std::pow(state - mean, 2) / n_states;
+        for (double state: states) {
+            stdev += std::pow(state-mean, 2);
         }
-
+        stdev /= n_states;
+        reset();
         return int(std::sqrt(stdev));
     }
 
-    std::bitset<SUDOKU_SIZE> seen_elements_cell(int startRow, int startCol){
+    std::bitset<SUDOKU_SIZE> seen_elements_cell(int startRow, int startCol) {
         std::bitset<SUDOKU_SIZE> seen;
         for (int row = startRow; row < startRow + SUDOKU_CELL_SIZE; ++row) {
             for (int col = startCol; col < startCol + SUDOKU_CELL_SIZE; ++col) {
                 // It is guaranteed that we will never set the same bit twice
                 int elem = currentBoard[row][col];
-                if(elem != 0)
+                if (elem != 0)
                     seen.set(currentBoard[row][col] - 1);
             }
         }
         return seen;
     }
 
-    void random_fill_cell(int startRow, int startCol){
+    void random_fill_cell(int startRow, int startCol) {
         std::bitset<SUDOKU_SIZE> seen = seen_elements_cell(startRow, startCol);
         for (int row = startRow; row < startRow + SUDOKU_CELL_SIZE; ++row) {
             for (int col = startCol; col < startCol + SUDOKU_CELL_SIZE; ++col) {
-                int & elem = currentBoard[row][col];
-                if(elem == 0){
-                    while(elem != 0){
+                int &elem = currentBoard[row][col];
+                if (startingBoard[row][col] == 0){
+                    while (true) {
                         int candidate = randomIntInRange(1, SUDOKU_SIZE);
-                        if (!seen[candidate-1]){
+                        if(!seen[candidate-1]){
                             elem = candidate;
-                            seen.set(candidate-1);
+                            seen.set(candidate - 1);
+                            break;
                         }
                     }
-                } else seen.set()
+                }
+                seen.reset();
             }
         }
     }
@@ -166,12 +167,14 @@ private:
                 random_fill_cell(startRow, startCol);
             }
         }
+        display_current_board();
     }
 
 public:
 
-    explicit Sudoku(const std::vector<std::vector<int>> &board) : startingBoard(board), currentBoard(board) {
-        startingTemp = starting_temperature(100);
+    explicit Sudoku(const std::vector<std::vector<int>> &board, int n_samples_iT) : startingBoard(board),
+                                                                                    currentBoard(board) {
+        startingTemp = starting_temperature(n_samples_iT);
     };
 
     /*
@@ -182,13 +185,13 @@ public:
      * @param iterations Maximum iterations for the Simulated Annealing
      * @return True if operation was successful, reaching objective status 0
      * */
-    bool solve(int iT, int alpha, int iterations) {
+    bool solve(int iT, int alpha, int iterations, int n_states_iT = 200) {
 
     }
 
     void display_starting_board() {
         display_board(startingBoard);
-        std::cout << "Starting Temp: " << startingTemp;
+        std::cout << "Starting Temp: " << startingTemp << "\n";
     };
 
     void display_current_board() {
@@ -221,21 +224,6 @@ int main() {
             {0, 0, 5, 3, 0, 0, 0, 7, 0}
     };
 
-    std::vector<std::vector<int>> solved = {
-            {7, 3, 5, 6, 1, 4, 8, 9, 2},
-            {8, 4, 2, 9, 7, 3, 5, 6, 1},
-            {9, 6, 1, 2, 8, 5, 3, 7, 4},
-
-            {2, 8, 6, 3, 4, 9, 1, 5, 7},
-            {4, 1, 3, 8, 5, 7, 9, 2, 6},
-            {5, 7, 9, 1, 2, 6, 4, 3, 8},
-
-            {1, 5, 7, 4, 9, 2, 6, 8, 3},
-            {6, 9, 4, 7, 3, 8, 2, 1, 5},
-            {3, 2, 8, 5, 6, 1, 7, 4, 9}
-    };
-
-    auto sudoku = Sudoku(s);
-    sudoku.display_current_board();
+    auto sudoku = Sudoku(s, 5);
     sudoku.display_starting_board();
 }
