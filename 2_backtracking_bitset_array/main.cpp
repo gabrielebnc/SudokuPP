@@ -144,5 +144,5 @@ int main() {
     std::cout << "Solve op result: " << result << "\n";
 
     display_sudoku(sudoku);
-    std::cout << "Execution time: " << duration.count() << "ms = " << duration.count() / 1000 << "s" << std::endl;
+    std::cout << "Execution time: " << duration.count() << "ms = " << float(duration.count()) / 1000 << "s" << std::endl;
 }
