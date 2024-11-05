@@ -155,12 +155,6 @@ private:
         return {randomIntInRange(0, 2) * SUDOKU_CELL_SIZE, randomIntInRange(0, 2) * SUDOKU_CELL_SIZE};
     }
 
-    int &random_cell_elem(const std::pair<int, int> &cell) {
-        int row = randomIntInRange(cell.first, cell.first + 2);
-        int col = randomIntInRange(cell.second, cell.second + 2);
-        return currentBoard[row][col];
-    }
-
     void swap_pair_in_cell(const std::pair<int, int> &cell) {
 
         // Get random indices for first cell
@@ -174,9 +168,9 @@ private:
         do {
             row2 = randomIntInRange(cell.first, cell.first + 2);
             col2 = randomIntInRange(cell.second, cell.second + 2);
-        } while ((row1 == row2 && col1 == col2)); // Loop until different cell is selected
+        } while ((row1 == row2 && col1 == col2));
 
-        int &second = currentBoard[row2][col2]; // Reference to the second cell value
+        int &second = currentBoard[row2][col2];
 
         int temp = second;
         second = first;
