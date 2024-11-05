@@ -303,15 +303,16 @@ int main() {
 
 
     auto sudoku = Sudoku(s);
-    std::cout << "STARTING TEMP: " << sudoku.starting_temperature(4) << "\n";
-    double best_alpha = 0.7;
-    double best_loops = 20000;
+    int initial_temp = sudoku.starting_temperature(10);
+    std::cout << "STARTING TEMPERATURE: " << initial_temp << "\n";
+    double best_alpha;
+    double best_loops;
 
     std::chrono::duration<double, std::milli> best_duration = std::chrono::duration<double, std::milli>::max(); // Initialize to max duration
     for (int loops = 200; loops < 10000; loops += 100) {
         for (double a = 0.7; a < 0.99; a += 0.2) {
             auto start = std::chrono::high_resolution_clock::now();
-            sudoku.solve(sudoku.starting_temperature(), a, loops); // Use 'a' as the alpha value
+            sudoku.solve(initial_temp, a, loops); // Use 'a' as the alpha value
             auto end = std::chrono::high_resolution_clock::now();
 
             // Compute duration of the current run
