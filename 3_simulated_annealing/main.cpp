@@ -305,8 +305,8 @@ int main() {
 
     auto sudoku = Sudoku(s);
     int initial_temp = sudoku.starting_temperature(30);
-    double alpha = 0.78;
-    int max_iter = 30000;
+    double alpha = 0.85;
+    int max_iter = 3000;
     int benchmark_iters = 100;
     int correct_count = 0;
 

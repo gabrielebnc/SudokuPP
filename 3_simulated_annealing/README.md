@@ -1,3 +1,9 @@
+# Simulated Annealing
 
+Average execution time: 27ms = 0.027s with alpha = 0.85 and loops = 3000
+Correct solutions in benchmark: 100/100
 
-Execution time: 8ms = 0.008s with alpha = 0.9 and loops = 200 (on local machine)
+## Criticalities and Questions
+
+- alpha has minor impact?
+- can be more efficient?
