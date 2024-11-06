@@ -106,10 +106,6 @@ private:
         return row_violations(sudoku) + col_violations(sudoku) + cell_violations(sudoku);
     }
 
-    int current_sudoku_evaluation() {
-        return sudoku_evaluation(currentBoard);
-    }
-
 
     std::bitset<SUDOKU_SIZE> seen_elements_cell(int startRow, int startCol) {
         std::bitset<SUDOKU_SIZE> seen;
@@ -190,6 +186,10 @@ public:
 
     void reset() {
         currentBoard = startingBoard;
+    }
+
+    int current_sudoku_evaluation() {
+        return sudoku_evaluation(currentBoard);
     }
 
     /*
@@ -301,32 +301,29 @@ int main() {
             {0, 0, 5, 3, 0, 0, 0, 7, 0}
     };
 
+    std::cout << std::boolalpha;
 
     auto sudoku = Sudoku(s);
-    int initial_temp = sudoku.starting_temperature(10);
-    std::cout << "STARTING TEMPERATURE: " << initial_temp << "\n";
-    double best_alpha;
-    double best_loops;
+    int initial_temp = sudoku.starting_temperature(30);
+    double alpha = 0.78;
+    int max_iter = 30000;
+    int benchmark_iters = 100;
+    int correct_count = 0;
 
-    std::chrono::duration<double, std::milli> best_duration = std::chrono::duration<double, std::milli>::max(); // Initialize to max duration
-    for (int loops = 200; loops < 10000; loops += 100) {
-        for (double a = 0.7; a < 0.99; a += 0.2) {
-            auto start = std::chrono::high_resolution_clock::now();
-            sudoku.solve(initial_temp, a, loops); // Use 'a' as the alpha value
-            auto end = std::chrono::high_resolution_clock::now();
-
-            // Compute duration of the current run
-            auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-
-            // Update the best duration and alpha if the current one is better
-            if (duration < best_duration) {
-                best_duration = duration;
-                best_alpha = a;
-                best_loops = loops;
-            }
-        }
+    long long average = 0;
+    for (int i = 0; i < benchmark_iters; ++i) {
+        sudoku.reset();
+        auto start = std::chrono::high_resolution_clock::now();
+        sudoku.solve(initial_temp, alpha, max_iter);
+        auto end = std::chrono::high_resolution_clock::now();
+        auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+        average += duration.count();
+        correct_count += (sudoku.current_sudoku_evaluation() == 0);
     }
+    average /= benchmark_iters;
     sudoku.display_current_board();
-    std::cout << "Execution time: " << best_duration.count() << "ms = " << float(best_duration.count()) / 1000 << "s"
-              << " with alpha = " << best_alpha << " and loops = " << best_loops << std::endl;
+
+    std::cout << "Average execution time: " << average << "ms = " << float(average) / 1000 << "s"
+              << " with alpha = " << alpha << " and loops = " << max_iter << "\n";
+    std::cout << "Correct solutions in benchmark: " << correct_count << "/" << benchmark_iters << std::endl;
 }
