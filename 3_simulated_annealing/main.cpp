@@ -61,7 +61,8 @@ private:
         return violations;
     }
 
-    static int col_violations(const std::vector<std::vector<int>> &sudoku) {
+    // Not used: the evaluation function can use just the row violations
+    [[maybe_unused]] static int col_violations(const std::vector<std::vector<int>> &sudoku) {
         int violations = 0;
         std::unordered_map<int, int> counts;
         for (int row = 0; row < SUDOKU_SIZE; ++row) {
@@ -78,7 +79,8 @@ private:
         return violations;
     }
 
-    static int cell_violations(const std::vector<std::vector<int>> &sudoku) {
+    // Not used: the evaluation function can use just the row violations
+    [[maybe_unused]] static int cell_violations(const std::vector<std::vector<int>> &sudoku) {
         int violations = 0;
         std::unordered_map<int, int> counts;
         for (int startRow = 0; startRow < SUDOKU_SIZE; startRow += SUDOKU_CELL_SIZE) {
@@ -101,9 +103,12 @@ private:
         return violations;
     }
 
-    // Evaluation of current board status, if 0 the board is solved
+    /**
+     * Sudoku Evaluation
+     * only uses row violations, making the execution faster
+     * */
     static int sudoku_evaluation(const std::vector<std::vector<int>> &sudoku) {
-        return row_violations(sudoku) + col_violations(sudoku) + cell_violations(sudoku);
+        return row_violations(sudoku);
     }
 
 
@@ -192,7 +197,7 @@ public:
         return sudoku_evaluation(currentBoard);
     }
 
-    /*
+    /**
      * Standard deviation of a number of randomly initialized states
      * */
     int starting_temperature(int n_states = 200) {
@@ -220,7 +225,7 @@ public:
         swap_pair_in_cell(cell);
     }
 
-    /*
+    /**
      * Simulated Annealing solving
      *
      * @param iT Initial Temperature for the Simulated Annealing
