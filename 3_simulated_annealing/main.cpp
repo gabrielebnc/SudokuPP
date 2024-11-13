@@ -159,8 +159,13 @@ private:
     void swap_pair_in_cell(const std::pair<int, int> &cell) {
 
         // Get random indices for first cell
-        int row1 = randomIntInRange(cell.first, cell.first + 2);
-        int col1 = randomIntInRange(cell.second, cell.second + 2);
+        int row1, col1;
+
+        do {
+            row1 = randomIntInRange(cell.first, cell.first + 2);
+            col1 = randomIntInRange(cell.second, cell.second + 2);
+        } while (startingBoard[row1][col1] != 0);
+
         int &first = currentBoard[row1][col1]; // Reference to the first cell value
 
         int row2, col2;
@@ -169,7 +174,7 @@ private:
         do {
             row2 = randomIntInRange(cell.first, cell.first + 2);
             col2 = randomIntInRange(cell.second, cell.second + 2);
-        } while ((row1 == row2 && col1 == col2));
+        } while ((row1 == row2 && col1 == col2) || startingBoard[row2][col2] != 0);
 
         int &second = currentBoard[row2][col2];
 
@@ -293,23 +298,24 @@ public:
 int main() {
 
     std::vector<std::vector<int>> s = {
-            {0, 0, 0, 0, 0, 0, 9, 0, 1},
-            {0, 1, 0, 0, 7, 0, 8, 0, 0},
-            {0, 0, 8, 0, 6, 0, 0, 2, 0},
-
-            {0, 0, 2, 0, 5, 0, 0, 3, 0},
-            {4, 0, 0, 7, 0, 0, 0, 8, 0},
+            {0, 0, 8, 9, 0, 6, 0, 0, 5},
+            {0, 4, 3, 0, 0, 0, 0, 2, 0},
             {0, 0, 0, 0, 0, 0, 0, 0, 0},
 
-            {0, 0, 1, 9, 0, 0, 0, 0, 0},
-            {0, 2, 0, 4, 0, 0, 0, 9, 3},
-            {0, 0, 5, 3, 0, 0, 0, 7, 0}
+            {0, 0, 4, 0, 0, 0, 9, 0, 0},
+            {5, 0, 0, 0, 4, 0, 6, 8, 0},
+            {0, 0, 0, 1, 0, 0, 0, 0, 0},
+
+            {2, 3, 0, 0, 8, 0, 0, 7, 0},
+            {0, 0, 0, 0, 3, 4, 1, 0, 0},
+            {4, 6, 0, 0, 0, 9, 0, 0, 0}
     };
 
     std::cout << std::boolalpha;
 
     auto sudoku = Sudoku(s);
     int initial_temp = sudoku.starting_temperature(30);
+    sudoku.display_current_board();
     double alpha = 0.85;
     int max_iter = 3000;
     int benchmark_iters = 100;
