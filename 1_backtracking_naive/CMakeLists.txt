@@ -1,1 +1,3 @@
 add_executable(1_backtracking_naive main.cpp)
+
+target_link_libraries(1_backtracking_naive PRIVATE benchmark)

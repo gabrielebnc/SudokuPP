@@ -2,6 +2,8 @@
 #include <vector>
 #include <set>
 #include <chrono>
+#include <numeric>
+#include "BenchmarkAbstract.h"
 
 const int SUDOKU_SIZE = 9;
 const int SUDOKU_CELL_SIZE = 3;
@@ -120,27 +122,45 @@ bool solve_sudoku(std::vector<std::vector<int>> &sudoku) {
     return true;
 }
 
+class NaiveBenchmark : public BenchmarkAbstract {
+public:
+    explicit NaiveBenchmark(const std::filesystem::path &sudoku_tests_path)
+            : BenchmarkAbstract(sudoku_tests_path) {
+    }
+
+    std::vector<std::vector<int>> string_to_sudoku(const std::string &sudoku_string) {
+        std::vector<std::vector<int>> sudoku(9, std::vector<int>(9));
+        for (auto i = 0; i < sudoku_string.length(); ++i) {
+            int row = i / SUDOKU_SIZE;
+            int col = i % SUDOKU_SIZE;
+            sudoku[row][col] = handle_char(sudoku_string[i]);
+        }
+        return sudoku;
+    }
+
+    void run_benchmark() override {
+        std::vector<long long> milliseconds_durations{};
+        for (const auto &sudoku_string: get_sudoku_tests_as_string()) {
+            auto sudoku = string_to_sudoku(sudoku_string);
+            auto start = std::chrono::high_resolution_clock::now();
+            auto result = solve_sudoku(sudoku);
+            auto end = std::chrono::high_resolution_clock::now();
+            auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+            std::cout << "Solve op result: " << result << "\n";
+            display_sudoku(sudoku);
+            std::cout << "Execution time: " << duration.count() << "ms = " << duration.count() / 1000 << "s"
+                      << std::endl;
+            milliseconds_durations.push_back(duration.count());
+        }
+        long long sum_dur = std::accumulate(milliseconds_durations.begin(), milliseconds_durations.end(), 0LL);
+        double avg = static_cast<double>(sum_dur) / int(milliseconds_durations.size());
+
+        std::cout << "Executed " << milliseconds_durations.size() << " tests.\n" << "Average duration: " << avg << "\n";
+    }
+};
+
 int main() {
-    std::vector<std::vector<int>> sudoku = {
-            {0, 0, 0, 0, 0, 0, 9, 0, 1},
-            {0, 1, 0, 0, 7, 0, 8, 0, 0},
-            {0, 0, 8, 0, 6, 0, 0, 2, 0},
-
-            {0, 0, 2, 0, 5, 0, 0, 3, 0},
-            {4, 0, 0, 7, 0, 0, 0, 8, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0},
-
-            {0, 0, 1, 9, 0, 0, 0, 0, 0},
-            {0, 2, 0, 4, 0, 0, 0, 9, 3},
-            {0, 0, 5, 3, 0, 0, 0, 7, 0}
-    };
-
-    auto start = std::chrono::high_resolution_clock::now();
-    auto result = solve_sudoku(sudoku);
-    auto end = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-
-    std::cout << "Solve op result: " << result << "\n";
-    display_sudoku(sudoku);
-    std::cout << "Execution time: " << duration.count() << "ms = " << duration.count() / 1000 << "s" << std::endl;
+    std::filesystem::path benchmark_file = "../../benchmark/sudoku_benchmark_test.txt";
+    NaiveBenchmark bench(benchmark_file);
+    bench.run_benchmark();
 }
