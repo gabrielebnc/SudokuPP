@@ -148,14 +148,15 @@ public:
             auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
             std::cout << "Solve op result: " << result << "\n";
             display_sudoku(sudoku);
-            std::cout << "Execution time: " << duration.count() << "ms = " << duration.count() / 1000 << "s"
+            std::cout << "Execution time: " << duration.count() << "ms = " << double(duration.count()) / 1000 << "s"
                       << std::endl;
             milliseconds_durations.push_back(duration.count());
         }
         long long sum_dur = std::accumulate(milliseconds_durations.begin(), milliseconds_durations.end(), 0LL);
         double avg = static_cast<double>(sum_dur) / int(milliseconds_durations.size());
 
-        std::cout << "Executed " << milliseconds_durations.size() << " tests.\n" << "Average duration: " << avg << "\n";
+        std::cout << "Executed " << milliseconds_durations.size() << " tests.\n" << "Average duration: " << avg
+                  << "ms = " << double(avg) / 1000 << "s" << std::endl;;
     }
 };
 
