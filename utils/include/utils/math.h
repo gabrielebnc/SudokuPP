@@ -3,7 +3,10 @@
 
 #include <numeric>
 #include <vector>
+#include <cmath>
 
-[[maybe_unused]] long double mean(std::vector<long long> samples);
+long double mean(std::vector<long long> samples);
+
+long double standardDeviation(std::vector<long long> samples);
 
 #endif //SUDOKUPP_MATH_H

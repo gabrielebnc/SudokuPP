@@ -25,7 +25,7 @@ public:
 
     [[nodiscard]] const std::vector<long long int> &getMsDurations() const;
 
-    [[maybe_unused]]void setMsDurations(const std::vector<long long int> &msDurations);
+    void setMsDurations(const std::vector<long long int> &msDurations);
 
     void addMsDuration(long long msDuration);
 

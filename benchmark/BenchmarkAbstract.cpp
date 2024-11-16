@@ -42,14 +42,15 @@ void BenchmarkAbstract::print_benchmark_results(const std::optional<std::string>
 
     std::cout << bench_name.value_or("Benchmark") << " results:\n";
     std::cout << "Executed Benchmark on " << getBenchmarkSize() << " testing puzzles.\n";
-    std::cout << "Average execution: " << _mean << "ms = " << _mean / 1000 << "s" << std::endl;
+    std::cout << "Average execution: " << _mean << "ms = " << _mean / 1000 << "s.\n";
+    std::cout << "Standard deviation: " << standardDeviation(getMsDurations()) << std::endl;
 }
 
 const std::vector<std::string> &BenchmarkAbstract::getSudokuTestsAsString() const {
     return sudoku_tests_as_string;
 }
 
-void BenchmarkAbstract::setSudokuTestsAsString(const std::vector<std::string> &sudokuTestsAsString) {
+[[maybe_unused]] void BenchmarkAbstract::setSudokuTestsAsString(const std::vector<std::string> &sudokuTestsAsString) {
     sudoku_tests_as_string = sudokuTestsAsString;
 }
 
@@ -65,7 +66,7 @@ const std::vector<long long int> &BenchmarkAbstract::getMsDurations() const {
     return ms_durations;
 }
 
-void BenchmarkAbstract::setMsDurations(const std::vector<long long int> &msDurations) {
+[[maybe_unused]] void BenchmarkAbstract::setMsDurations(const std::vector<long long int> &msDurations) {
     ms_durations = msDurations;
 }
 
