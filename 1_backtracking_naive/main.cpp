@@ -2,8 +2,8 @@
 #include <vector>
 #include <set>
 #include <chrono>
-#include <numeric>
-#include "BenchmarkAbstract.h"
+#include <filesystem>
+#include "NaiveBenchmark.h"
 
 const int SUDOKU_SIZE = 9;
 const int SUDOKU_CELL_SIZE = 3;
@@ -11,7 +11,7 @@ const int SUDOKU_CELL_SIZE = 3;
 /*
  * Utility function to display the sudoku
  * */
-void display_sudoku(const std::vector<std::vector<int>> &sudoku) {
+[[maybe_unused]] void display_sudoku(const std::vector<std::vector<int>> &sudoku) {
     for (int i = 0; i < SUDOKU_SIZE; i++) {
         for (int j = 0; j < SUDOKU_SIZE; j++) {
             if (j % 3 == 0) std::cout << "|";
@@ -121,36 +121,6 @@ bool solve_sudoku(std::vector<std::vector<int>> &sudoku) {
     }
     return true;
 }
-
-class NaiveBenchmark : public BenchmarkAbstract {
-public:
-    explicit NaiveBenchmark(const std::filesystem::path &sudoku_tests_path)
-            : BenchmarkAbstract(sudoku_tests_path) {
-    }
-
-    static std::vector<std::vector<int>> string_to_sudoku(const std::string &sudoku_string) {
-        std::vector<std::vector<int>> sudoku(9, std::vector<int>(9));
-        for (auto i = 0; i < sudoku_string.length(); ++i) {
-            int row = i / SUDOKU_SIZE;
-            int col = i % SUDOKU_SIZE;
-            sudoku[row][col] = handle_char(sudoku_string[i]);
-        }
-        return sudoku;
-    }
-
-    void run_benchmark() override {
-        for (const auto &sudoku_string: getSudokuTestsAsString()) {
-            auto sudoku = string_to_sudoku(sudoku_string);
-            auto start = std::chrono::high_resolution_clock::now();
-            solve_sudoku(sudoku);
-            auto end = std::chrono::high_resolution_clock::now();
-            auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-            addMsDuration(duration.count());
-        }
-
-        print_benchmark_results( "Naive");
-    }
-};
 
 int main() {
     std::filesystem::path benchmark_file = "../../benchmark/sudoku_benchmark_test.txt";
