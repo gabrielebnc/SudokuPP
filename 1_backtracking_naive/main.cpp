@@ -128,7 +128,7 @@ public:
             : BenchmarkAbstract(sudoku_tests_path) {
     }
 
-    std::vector<std::vector<int>> string_to_sudoku(const std::string &sudoku_string) {
+    static std::vector<std::vector<int>> string_to_sudoku(const std::string &sudoku_string) {
         std::vector<std::vector<int>> sudoku(9, std::vector<int>(9));
         for (auto i = 0; i < sudoku_string.length(); ++i) {
             int row = i / SUDOKU_SIZE;
@@ -139,24 +139,16 @@ public:
     }
 
     void run_benchmark() override {
-        std::vector<long long> milliseconds_durations{};
-        for (const auto &sudoku_string: get_sudoku_tests_as_string()) {
+        for (const auto &sudoku_string: getSudokuTestsAsString()) {
             auto sudoku = string_to_sudoku(sudoku_string);
             auto start = std::chrono::high_resolution_clock::now();
-            auto result = solve_sudoku(sudoku);
+            solve_sudoku(sudoku);
             auto end = std::chrono::high_resolution_clock::now();
             auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-            std::cout << "Solve op result: " << result << "\n";
-            display_sudoku(sudoku);
-            std::cout << "Execution time: " << duration.count() << "ms = " << double(duration.count()) / 1000 << "s"
-                      << std::endl;
-            milliseconds_durations.push_back(duration.count());
+            addMsDuration(duration.count());
         }
-        long long sum_dur = std::accumulate(milliseconds_durations.begin(), milliseconds_durations.end(), 0LL);
-        double avg = static_cast<double>(sum_dur) / int(milliseconds_durations.size());
 
-        std::cout << "Executed " << milliseconds_durations.size() << " tests.\n" << "Average duration: " << avg
-                  << "ms = " << double(avg) / 1000 << "s" << std::endl;;
+        print_benchmark_results( "Naive");
     }
 };
 
