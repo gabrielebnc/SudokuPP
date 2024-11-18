@@ -7,5 +7,7 @@ This first implementation uses basic logic and probably inefficient data types t
 - ?
 
 ## Performance
-This implementation is quite slow on [Sudoku.com Extremes](https://sudoku.com/it/extreme/), the sudoku in the code
-around **28 seconds** to complete.
+Naive results:
+Executed Benchmark on 7 testing puzzles.
+Average execution: 7155.29ms = 7.15529s.
+Standard deviation: 9218.28
