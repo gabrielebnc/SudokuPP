@@ -1,5 +1,5 @@
 #include "NaiveBenchmark.h"
-#include "main.h"
+#include "backtracking_naive.h"
 
 const int SUDOKU_SIZE = 9;
 
@@ -27,6 +27,5 @@ void NaiveBenchmark::run_benchmark() {
         addMsDuration(duration.count()
         );
     }
-
     print_benchmark_results("Naive");
 }
