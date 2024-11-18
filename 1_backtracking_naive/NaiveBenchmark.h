@@ -7,7 +7,7 @@
 
 class NaiveBenchmark : public BenchmarkAbstract {
 public:
-    explicit NaiveBenchmark(const std::filesystem::path &sudoku_tests_path);
+    explicit NaiveBenchmark();
 
     static std::vector<std::vector<int>> string_to_sudoku(const std::string &sudoku_string);
 

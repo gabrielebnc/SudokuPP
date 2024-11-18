@@ -6,6 +6,7 @@
 #include <vector>
 #include <optional>
 
+
 class BenchmarkAbstract {
 
 public:
@@ -13,7 +14,7 @@ public:
      * Constructor that initializes the path to the Sudoku test file and reads it.
      * @param sudoku_tests_path Path to the Sudoku tests file.
      */
-    explicit BenchmarkAbstract(std::filesystem::path sudoku_tests_path);
+    explicit BenchmarkAbstract();
 
     [[nodiscard]] const std::vector<std::string> &getSudokuTestsAsString() const;
 

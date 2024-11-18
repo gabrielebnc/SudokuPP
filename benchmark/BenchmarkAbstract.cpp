@@ -4,11 +4,13 @@
 #include <stdexcept>
 #include <utils/math.h>
 
+const std::filesystem::path LOCAL_FILE_DIRECTORY = __FILE__;
+const std::string SUDOKU_TESTS_FILENAME = "sudoku_benchmark_test.txt";
+const std::filesystem::path BENCHMARK_TESTS_PATH = LOCAL_FILE_DIRECTORY.parent_path() / SUDOKU_TESTS_FILENAME;
 
-const int SUDOKU_BOARD_LENGTH = 81; // 9x9 Sudokus
+constexpr int SUDOKU_BOARD_LENGTH = 81; // 9x9 Sudokus
 
-BenchmarkAbstract::BenchmarkAbstract(std::filesystem::path sudoku_tests_path) : path_to_tests(
-        std::move(sudoku_tests_path)), ms_durations(), benchmark_size() {
+BenchmarkAbstract::BenchmarkAbstract() : path_to_tests(BENCHMARK_TESTS_PATH), ms_durations(), benchmark_size() {
     read_sudoku_test_file(path_to_tests); // Call to read Sudoku test file
 }
 

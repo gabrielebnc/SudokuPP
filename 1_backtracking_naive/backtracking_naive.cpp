@@ -1,11 +1,10 @@
 #include "backtracking_naive.h"
-
 #include <iostream>
 #include <vector>
 #include <set>
 
-const int SUDOKU_SIZE = 9;
-const int SUDOKU_CELL_SIZE = 3;
+constexpr int SUDOKU_SIZE = 9;
+constexpr int SUDOKU_CELL_SIZE = 3;
 
 /**
  * Utility function to display the sudoku
