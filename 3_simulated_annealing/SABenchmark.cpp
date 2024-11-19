@@ -16,17 +16,20 @@ std::vector<std::vector<int>> SABenchmark::string_to_sudoku(const std::string &s
 
 void SABenchmark::run_benchmark() {
     int count = 1;
+    int incorrect_results = 0;
     auto test_len = getSudokuTestsAsString().size();
     for (const auto &sudoku_string: getSudokuTestsAsString()) {
-        std::cout << "Running test " << count++ << "/" << test_len << std::endl;
+        std::cout << "Running test " << count++ << "/" << test_len << "\n\n";
         auto sas = SASolver(string_to_sudoku(sudoku_string));
         auto initial_temp = sas.starting_temperature();
         auto start = std::chrono::high_resolution_clock::now();
         sas.solve(initial_temp, SA_SOLVER_ALPHA, SA_SOLVER_MAX_ITER);
         auto end = std::chrono::high_resolution_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-        sas.display_current_board();
+        if(sas.current_sudoku_evaluation() != 0){
+            incorrect_results += 1;
+        }
         addMsDuration(duration.count());
     }
-    print_benchmark_results("BTBitset");
+    print_benchmark_results("BTBitset", incorrect_results);
 }

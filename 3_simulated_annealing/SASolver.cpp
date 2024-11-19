@@ -45,9 +45,9 @@ int SASolver::row_violations(const std::vector<std::vector<int>> &sudoku) {
 int SASolver::col_violations(const std::vector<std::vector<int>> &sudoku) {
     int violations = 0;
     std::unordered_map<int, int> counts;
-    for (int row = 0; row < SUDOKU_SIZE; ++row) {
-        for (int col = 0; col < SUDOKU_SIZE; ++col) {
-            counts[sudoku[row][col]]++;
+    for (int col = 0; col < SUDOKU_SIZE; ++col) {
+        for (int row = 0; row < SUDOKU_SIZE; ++row) {
+            ++counts[sudoku[row][col]];
         }
         for (const auto &entry: counts) {
             if (entry.second > 1) {
@@ -88,7 +88,7 @@ int SASolver::cell_violations(const std::vector<std::vector<int>> &sudoku) {
  * */
 int SASolver::sudoku_evaluation(const std::vector<std::vector<int>> &sudoku) {
     // TODO faster solution???
-    return row_violations(sudoku) + col_violations(sudoku);
+    return row_violations(sudoku) * col_violations(sudoku);
 }
 
 

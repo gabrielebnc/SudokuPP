@@ -1,5 +1,6 @@
 #include "BenchmarkAbstract.h"
 #include <iostream>
+#include <iomanip>
 #include <fstream>
 #include <stdexcept>
 #include <utils/math.h>
@@ -39,11 +40,22 @@ int BenchmarkAbstract::handle_char(char c) {
     return num;
 }
 
-void BenchmarkAbstract::print_benchmark_results(const std::optional<std::string> &bench_name) const {
+void BenchmarkAbstract::print_benchmark_results(const std::optional<std::string> &bench_name,
+                                                int incorrect_results_count) const {
     long double _mean = mean(getMsDurations());
+    int bench_size = static_cast<int>(getBenchmarkSize());
 
     std::cout << bench_name.value_or("Benchmark") << " results:\n";
     std::cout << "Executed Benchmark on " << getBenchmarkSize() << " testing puzzles.\n";
+
+    if (incorrect_results_count != 0) {
+        std::cout << incorrect_results_count << "/" << getBenchmarkSize() << " ("
+                  << std::fixed << std::setprecision(2) << percentage(incorrect_results_count, bench_size)
+                  << "%) INCORRECT RESULTS!\n";
+    } else {
+        std::cout << "All results are correct.\n";
+    }
+
     std::cout << "Average execution: " << _mean << "ms = " << _mean / 1000 << "s.\n";
     std::cout << "Standard deviation: " << standardDeviation(getMsDurations()) << std::endl;
 }

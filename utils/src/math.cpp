@@ -32,3 +32,7 @@ double randomDoubleInRange(double min, double max) {
     std::uniform_real_distribution<> dis(min, max);
     return dis(gen);
 }
+
+double percentage(int part, int total) {
+    return total == 0 ? 0.0 : (static_cast<double>(part) / total) * 100.0;
+}

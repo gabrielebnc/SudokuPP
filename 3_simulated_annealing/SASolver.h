@@ -7,8 +7,9 @@
 constexpr int SUDOKU_SIZE = 9;
 
 // Best params found (maybe)
-constexpr double SA_SOLVER_ALPHA = 0.85;
-constexpr int SA_SOLVER_MAX_ITER = 3000;
+// TODO grid search to find best params
+constexpr double SA_SOLVER_ALPHA = 0.9995;
+constexpr int SA_SOLVER_MAX_ITER = 500'000;
 
 constexpr int DEAFULT_INITIAL_TEMP_N_STATES = 30;
 
@@ -24,10 +25,8 @@ private:
 
     static int row_violations(const std::vector<std::vector<int>> &sudoku);
 
-    // Not used: the evaluation function can use just the row violations
     [[maybe_unused]] static int col_violations(const std::vector<std::vector<int>> &sudoku);
 
-    // Not used: the evaluation function can use just the row violations
     [[maybe_unused]] static int cell_violations(const std::vector<std::vector<int>> &sudoku);
 
     /**

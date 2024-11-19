@@ -15,4 +15,6 @@ int randomIntInRange(int min, int max);
 
 double randomDoubleInRange(double min, double max);
 
+double percentage(int part, int total);
+
 #endif //SUDOKUPP_MATH_H

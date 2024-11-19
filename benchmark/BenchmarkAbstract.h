@@ -48,8 +48,9 @@ public:
     /**
      * Prints out benchmark results
      * @param bench_name String Name for the benchmark results
+     * @param incorrect_results_count Number of incorrect results
      */
-    void print_benchmark_results(const std::optional<std::string> &bench_name) const;
+    void print_benchmark_results(const std::optional<std::string> &bench_name, int incorrect_results_count = 0) const;
 
     /**
      *
