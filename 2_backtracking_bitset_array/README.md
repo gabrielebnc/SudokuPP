@@ -8,8 +8,8 @@ This second implementation is significantly faster, mostly due to the overall hi
 - ??
 
 ## Performance (from benchmark execution)
-BTBitset results:
-Executed Benchmark on 12 testing puzzles.
-All results are correct.
-Average execution: 2306.42ms = 2.30642s.
+BTBitset results:\
+Executed Benchmark on 12 testing puzzles.\
+All results are correct.\
+Average execution: 2306.42ms = 2.30642s.\
 Standard deviation: 4891.23

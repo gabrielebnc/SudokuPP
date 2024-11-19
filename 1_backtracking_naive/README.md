@@ -8,7 +8,8 @@ This first implementation uses basic logic and probably inefficient data types t
 - ??
 
 ## Performance (from benchmark execution)
-Naive results:
-Executed Benchmark on 7 testing puzzles.
-Average execution: 7155.29ms = 7.15529s.
+Naive results:\
+Executed Benchmark on 7 testing puzzles.\
+All results are correct.\
+Average execution: 7155.29ms = 7.15529s.\
 Standard deviation: 9218.28
