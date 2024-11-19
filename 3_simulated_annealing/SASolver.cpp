@@ -41,7 +41,7 @@ int SASolver::row_violations(const std::vector<std::vector<int>> &sudoku) {
     return violations;
 }
 
-// Not used: the evaluation function can use just the row violations
+// FIXME gives wrong results!
 int SASolver::col_violations(const std::vector<std::vector<int>> &sudoku) {
     int violations = 0;
     std::unordered_map<int, int> counts;
@@ -87,6 +87,7 @@ int SASolver::cell_violations(const std::vector<std::vector<int>> &sudoku) {
  * Sudoku Evaluation
  * */
 int SASolver::sudoku_evaluation(const std::vector<std::vector<int>> &sudoku) {
+    // TODO faster solution???
     return row_violations(sudoku) + col_violations(sudoku);
 }
 
