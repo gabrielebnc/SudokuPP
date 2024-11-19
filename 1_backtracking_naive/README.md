@@ -4,9 +4,10 @@ This first implementation uses basic logic and probably inefficient data types t
 ## Criticalities
 - `std::vector`
 - `std::set`
-- ?
+- Some puzzles are harder than others, and they can be made in a way specifically to be slow for the algorithm
+- ??
 
-## Performance
+## Performance (from benchmark execution)
 Naive results:
 Executed Benchmark on 7 testing puzzles.
 Average execution: 7155.29ms = 7.15529s.

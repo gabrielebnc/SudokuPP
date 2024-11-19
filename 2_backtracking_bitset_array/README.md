@@ -4,10 +4,12 @@ This second implementation is significantly faster, mostly due to the overall hi
 
 ## Criticalities
 - The backtracking algorithm is probably not the most clever
+- Some puzzles are harder than others, and they can be made in a way specifically to be slow for the algorithm
 - ??
 
-## Performance (on local machine)
+## Performance (from benchmark execution)
 BTBitset results:
-Executed Benchmark on 7 testing puzzles.
-Average execution: 598.143ms = 0.598143s.
-Standard deviation: 762.111
+Executed Benchmark on 12 testing puzzles.
+All results are correct.
+Average execution: 2306.42ms = 2.30642s.
+Standard deviation: 4891.23
