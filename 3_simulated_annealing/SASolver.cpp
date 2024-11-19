@@ -85,10 +85,9 @@ int SASolver::cell_violations(const std::vector<std::vector<int>> &sudoku) {
 
 /**
  * Sudoku Evaluation
- * only uses row violations, making the execution faster
  * */
 int SASolver::sudoku_evaluation(const std::vector<std::vector<int>> &sudoku) {
-    return row_violations(sudoku);
+    return row_violations(sudoku) + col_violations(sudoku);
 }
 
 
