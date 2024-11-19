@@ -1,10 +1,18 @@
 # Simulated Annealing
 
-Average execution time: 9ms = 0.009s with alpha = 0.85 and loops = 3000
-Correct solutions in benchmark: 100/100
+## Performance (from benchmark execution)
+
+BTBitset results:
+Executed Benchmark on 12 testing puzzles.
+All results are correct. 
+Average execution: 42.9167ms = 0.0429167s.
+Standard deviation: 8.76982
+
+Results correctness is not 100% guaranteed, there might be around a 0.7-1% chance of incorrect result.
+This depends on the Simulated Annealing parameters (initial temperature, cooling rate and max iterations).
 
 ## Criticalities and Questions
 
-- alpha has minor impact?
-- can be more efficient?
-- testing on multiple sudokus needed
+- Can be more efficient?
+- Not deterministic
+- Can terminate with wrong result
