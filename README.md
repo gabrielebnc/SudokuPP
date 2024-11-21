@@ -14,3 +14,6 @@ Spin-off of Naive Backtracking, this time using the `std::bitset` and C-style ar
 ### 3. Simulated Annealing
 The third solver explores a probabilistic optimization approach using [Simulated Annealing](https://en.wikipedia.org/wiki/Simulated_annealing).\
 [More](./3_simulated_annealing/README.md)
+
+## Performance Distribution
+![Distribution of Solvers' execution time](images/time_distribution.png)
